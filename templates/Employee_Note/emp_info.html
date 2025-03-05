@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+</head>
+<body>
+    <div class="container" align="center">
+
+        <h2>Employee Details</h2>
+        <div>
+            <label for="campaignName">Campaign Name:</label>
+            <input
+                    type="text"
+                    id="campaignName"
+                    name="campaignName"
+                    minlength="5"
+                    maxlength="32"
+                    required
+            />
+        </div>
+        &nbsp;
+        <div>
+            <label for="locationSelect">Select Location: </label>
+            <select id="locationSelect" name="location">
+                <option value="All" name="filter">All Locations</option>
+            </select>
+            &nbsp;
+            <button id="filterButton">Filter</button>
+        </div>
+
+        <br>
+        <div style="width: 45%;">
+            <div
+                    id="employeeGrid"
+                    class="ag-theme-alpine"
+                    style="height:500px;">
+            </div>
+
+        </div>
+        <br>
+        <br>
+        <a href="{% url 'preview' %}">
+            <button id="proceedButton" name="proceed"> proceed </button>
+        </a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+    <script src="{% static '/js_files/emp_info.js' %}"></script>
+</body>
+</html>

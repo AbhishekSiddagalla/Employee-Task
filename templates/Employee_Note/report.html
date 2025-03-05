@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+</head>
+<body>
+        <div class="container" align="center">
+            <div
+                    id="reportGrid"
+                    class="ag-theme-alpine"
+                    style="height:500px; width:800px;">
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+        <script src="{% static '/js_files/report.js' %}"></script>
+</body>
+</html>
