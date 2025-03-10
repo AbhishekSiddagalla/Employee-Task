@@ -1,5 +1,5 @@
 {% load static %}
-
+{% spaceless %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +10,7 @@
 <body>
     <div class="container" align="center">
 
-        <h2>Employee Details</h2>
+        <h2>Select Employees From Employee List</h2>
         <div>
             <label for="campaignName">Campaign Name:</label>
             <input
@@ -46,6 +46,10 @@
         <a href="{% url 'preview' %}">
             <button id="proceedButton" name="proceed"> proceed </button>
         </a>
+        &nbsp;
+        <a href="{% url 'menu_page'%}">
+            <button id="backToMenuButton" name="backToMenu">back to menu</button>
+        </a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -53,3 +57,4 @@
     <script src="{% static '/js_files/emp_info.js' %}"></script>
 </body>
 </html>
+{% endspaceless %}

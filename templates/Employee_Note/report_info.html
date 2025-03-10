@@ -1,0 +1,34 @@
+{% load static %}
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Info</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+</head>
+<body>
+  <div class="container" align="center">
+    <h2>Campaign Name:<span id="campaign">__</span></h2>
+    <h2>Count:<span id="count">0</span></h2>
+    <label for="noteInfo">Note:</label>
+    <textarea
+            id="noteInfo"
+            name="noteInfo"
+            style="height:150px;"
+            readonly>
+    </textarea>
+    <h2>Doc Link:<span id="documentLink"></span></h2>
+    <h2>Campaign Date:<span id="campaignDate"></span></h2>
+    <div id="reportInfoGrid" class="ag-theme-alpine" style="width: 460px;"></div>
+    <br><br>
+    <a href="{% url 'menu_page'%}">
+        <button id="backToMenuButton" name="backToMenu">back to menu</button>
+    </a>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+  <script src="{% static '/js_files/report_info.js' %}"></script>
+</body>
+</html>
+{% endspaceless %}

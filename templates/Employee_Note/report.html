@@ -1,5 +1,5 @@
 {% load static %}
-
+{% spaceless %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +12,16 @@
             <div
                     id="reportGrid"
                     class="ag-theme-alpine"
-                    style="height:500px; width:800px;">
+                    style="height:500px; width:500px;">
             </div>
+            &nbsp;
+        <a href="{% url 'menu_page'%}">
+            <button id="backToMenuButton" name="backToMenu">back to menu</button>
+        </a>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
         <script src="{% static '/js_files/report.js' %}"></script>
 </body>
 </html>
+{% endspaceless %}

@@ -4,7 +4,6 @@ $(document).ready(function(){
 
     $('#campaignName').on('input', function(){
         saveCampaignName();
-
     });
 });
 
@@ -18,7 +17,6 @@ function saveCampaignName(){
     // save the data from campaignName input field to localStorage
     localStorage.setItem('campaignName',JSON.stringify(campaignName));
 
-    $('#campaignName')[0].reset();
 
 }
 
@@ -82,8 +80,9 @@ function onRowSelected(event){
     const empId = selectedNode.data.emp_id;
 
     if (selectedNode.__selected) {
-        if (!selectedEmployees.some(emp => emp.emp_id === empId)) {
-            selectedEmployees.push(event.data);
+        const empPhone = selectedNode.data.emp_phone;
+        if (!selectedEmployees.includes(empId)) {
+            selectedEmployees.push(empId);
         }
 
     }
@@ -129,6 +128,7 @@ const gridOptions = {
         groupSelects: "descendants"
     },
     columnDefs: columnDefs,
+    rowData:null,
     pagination: true,
     paginationPageSize: pageSize,
     paginationPageSizeSelector: [5, 10, 20, 50, 100],
@@ -142,8 +142,6 @@ const gridOptions = {
 // creating empty grid
 function initializeGrid() {
     const gridDiv = document.getElementById('employeeGrid');
-    gridApi = agGrid.createGrid(document.getElementById('employeeGrid'),gridOptions);
-
-     gridApi.setGridOption("rowData", rowData);
+    gridApi = agGrid.createGrid(gridDiv,gridOptions);
 }
 

@@ -23,3 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Employee_Note',
 ]
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -9,5 +9,7 @@ urlpatterns = [
     path('report/',views.report_page,name='report'),
     path('api-add-campaign/', views.add_campaign_data,name='add_campaign'),
     path('api-campaign-report/',views.campaign_report,name='campaign_report'),
+    path('menu/',views.menu_page,name='menu_page'),
+    path('report-info/', views.report_info, name='report_info'),
 
 ]

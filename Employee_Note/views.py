@@ -106,6 +106,7 @@ def add_campaign_data(request):
         document = form.cleaned_data['document']
         campaign_name = request.POST.get("campaign_name")
         total_count_of_employees = request.POST.get("total_count_of_employees")
+        phone_numbers = request.POST.get("phone_numbers")
 
 
         new_campaign = Report.objects.create(
@@ -113,6 +114,7 @@ def add_campaign_data(request):
             total_count_of_employees = total_count_of_employees,
             note_description = note,
             document = document,
+            phone_numbers = phone_numbers
         )
 
         campaign_data = {
@@ -120,6 +122,7 @@ def add_campaign_data(request):
             "total_count_of_employees": new_campaign.total_count_of_employees,
             "note_description": new_campaign.note_description,
             "status": new_campaign.status,
+            "phone_numbers": new_campaign.phone_numbers,
             "document_url": new_campaign.document.url
         }
 
@@ -132,14 +135,21 @@ def add_campaign_data(request):
 def campaign_report(request):
     """ Fetching Campaign report from report table"""
     if request.method == "GET":
-        report_list = Report.objects.order_by("-id").first()
-        campaign_report_list = {
-                "campaign_id":report_list.id,
-                "campaign_name":report_list.campaign_name,
-                "date_of_campaign":report_list.date_of_campaign,
-                "total_count_of_employees":report_list.total_count_of_employees,
-                "note_description":report_list.note_description,
-                "document":str(report_list.document) if report_list.document else None,
-                "status":report_list.status
-            }
+        report_list = Report.objects.all()
+        campaign_report_list = [{
+                "campaign_id":report.id,
+                "campaign_name":report.campaign_name,
+                "date_of_campaign":report.date_of_campaign,
+                "total_count_of_employees":report.total_count_of_employees,
+                "note_description":report.note_description,
+                "document":str(report.document) if report.document else None,
+                "status":report.status
+            } for report in report_list]
         return JsonResponse({"campaign_report":campaign_report_list})
+
+def menu_page(request):
+    """ menu page to display all actions """
+    return render(request,"menu.html")
+
+def report_info(request):
+    return render(request,"report_info.html")
