@@ -4,57 +4,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Employee Details</title>
+    <title>Select Employees</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
 </head>
 <body>
-    <div class="container" align="center">
+<div class="container" align="center">
 
-        <h2>Select Employees From Employee List</h2>
-        <div>
-            <label for="campaignName">Campaign Name:</label>
-            <input
-                    type="text"
-                    id="campaignName"
-                    name="campaignName"
-                    minlength="5"
-                    maxlength="32"
-                    required
-            />
-        </div>
+    <h2>Select Employees From Employee List</h2>
+    <div>
+        <label for="campaignName">Campaign Name:</label>
+        <input
+                type="text"
+                id="campaignName"
+                name="campaignName"
+                minlength="5"
+                maxlength="32"
+                required
+        />
+    </div>
+    &nbsp;
+    <div>
+        <label for="locationSelect">Select Location: </label>
+        <select id="locationSelect" name="location">
+            <option value="All" name="filter">All Locations</option>
+        </select>
         &nbsp;
-        <div>
-            <label for="locationSelect">Select Location: </label>
-            <select id="locationSelect" name="location">
-                <option value="All" name="filter">All Locations</option>
-            </select>
-            &nbsp;
-            <button id="filterButton">Filter</button>
-        </div>
-
-        <br>
-        <div style="width: 45%;">
-            <div
-                    id="employeeGrid"
-                    class="ag-theme-alpine"
-                    style="height:500px;">
-            </div>
-
-        </div>
-        <br>
-        <br>
-        <a href="{% url 'preview' %}">
-            <button id="proceedButton" name="proceed"> proceed </button>
-        </a>
-        &nbsp;
-        <a href="{% url 'menu_page'%}">
-            <button id="backToMenuButton" name="backToMenu">back to menu</button>
-        </a>
+        <button id="filterButton">Filter</button>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
-    <script src="{% static '/js_files/emp_info.js' %}"></script>
+    <br>
+    <div style="width: 45%;">
+        <div
+                id="employeeGrid"
+                class="ag-theme-alpine"
+                style="height:500px;">
+        </div>
+
+    </div>
+    <br>
+    <br>
+    <a href="{% url 'preview' %}">
+        <button id="proceedButton" name="proceed"> proceed</button>
+    </a>
+    &nbsp;
+    <a href="{% url 'menu_page'%}">
+        <button id="backToMenuButton" name="backToMenu">back to menu</button>
+    </a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+<script src="{% static '/js_files/emp_info.js' %}"></script>
 </body>
 </html>
 {% endspaceless %}

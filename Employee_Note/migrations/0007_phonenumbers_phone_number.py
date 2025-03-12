@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('Employee_Note', '0006_alter_employeeinfo_emp_phone_and_more'),
     ]

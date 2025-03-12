@@ -12,6 +12,7 @@ $(document).ready(function(){
     $('#sendButton').on('click',function(){
         var note = $('#note').val();
         var docFile = $('#document').prop("files")[0];
+        var scheduleDate = $('#scheduleTime').val()
 
 
         // validating note
@@ -24,7 +25,8 @@ $(document).ready(function(){
         formData.append("total_count_of_employees", totalSelectedCount);
         formData.append("note_description", note);
         formData.append("document", docFile);
-        formData.append("phone_numbers",selectedEmployeeId)
+        formData.append("phone_numbers_id",selectedEmployeeId);
+        formData.append("schedule_date",scheduleDate)
         // get csrf token value
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         // make an Ajax call to post data to API

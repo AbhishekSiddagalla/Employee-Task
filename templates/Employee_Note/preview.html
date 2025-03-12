@@ -8,51 +8,54 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
 </head>
 <body>
-    <div class="container">
+<div class="container">
 
-        <form id="add-campaign-form" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div align="center"><h2>Total Selected Employees: <span id="selectedCount">0</span></h2></div>
-            <br>
-            <div align="center"><h2>Campaign Name: <span id="campaignName">__</span></h2></div>
+    <form id="add-campaign-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div align="center"><h2>Total Selected Employees: <span id="selectedCount">0</span></h2></div>
+        <br>
+        <div align="center"><h2>Campaign Name: <span id="campaignName">__</span></h2></div>
 
-            <div class="form-row">
+        <div class="form-row">
+            <div class="form-item">
+                <div id="previewGrid" class="ag-theme-alpine"></div>
+            </div>
+            <div align="center">
                 <div class="form-item">
-                    <div id="previewGrid" class="ag-theme-alpine"></div>
+                    <label for="note">Note:</label>
+                    <textarea
+                            id="note"
+                            name="note"
+                            minlength="10"
+                            maxlength="200"
+                            style="height:150px;"
+                            required></textarea>
                 </div>
-                    <div align="center">
-                    <div class="form-item" >
-                        <label for="note">Note:</label>
-                        <textarea
-                                id="note"
-                                name="note"
-                                minlength="10"
-                                maxlength="200"
-                                style="height:150px;"
-                                required></textarea>
-                    </div>
+                <br><br>
+                <div class="form-item">
+                    <label for="document">Document:</label>
+                    <input type="file" id="document" name="document"/>
                     <br><br>
-                    <div class="form-item">
-                        <label for="document">Document:</label>
-                        <input type="file" id="document" name="document"/>
-                    </div>
+                    <label for="scheduleTime">Schedule Time</label>
+                    <input type="date" id="scheduleTime"/>
                 </div>
             </div>
-        </form>
-        <br><br>
-        <div align="center">
-            <button id="sendButton" name="sendButton">send</button>
-            &nbsp;
-            <a href="{% url 'menu_page' %}">
-                <button id="backButton" name="backButton">Back to Menu</button>
-            </a>&nbsp;
         </div>
-
+    </form>
+    <br><br>
+    <div align="center">
+        <button id="sendButton" name="sendButton">send</button>
+        &nbsp;
+        <a href="{% url 'menu_page' %}">
+            <button id="backButton" name="backButton">Back to Menu</button>
+        </a>&nbsp;
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
-    <script src="{% static '/js_files/preview.js' %}"></script>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+<script src="{% static '/js_files/preview.js' %}"></script>
 </body>
 </html>
 {% endspaceless %}

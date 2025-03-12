@@ -1,11 +1,14 @@
 import pytest
-from Employee_Note.models import Locations,EmployeeInfo
+
+from Employee_Note.models import Locations, EmployeeInfo
+
 
 @pytest.fixture
 def create_locations():
     location1 = Locations.objects.create(unique_locations="Location 1")
     location2 = Locations.objects.create(unique_locations="Location 2")
     return location1, location2
+
 
 @pytest.fixture
 def create_employees(create_locations):
@@ -15,8 +18,9 @@ def create_employees(create_locations):
     employee3 = EmployeeInfo.objects.create(emp_name="Alice Smith", emp_location=location1, emp_phone="1112223333")
     return employee1, employee2, employee3
 
+
 @pytest.mark.django_db
-def test_get_emp_details_all(client,create_employees):
+def test_get_emp_details_all(client, create_employees):
     """
     testing employee data with all locations
     """
@@ -27,8 +31,9 @@ def test_get_emp_details_all(client,create_employees):
     assert response.json()['Employee_data'][1]['emp_name'] == "Jane Doe"
     assert response.json()['Employee_data'][2]['emp_name'] == "Alice Smith"
 
+
 @pytest.mark.django_db
-def test_get_emp_details_location(client,create_employees):
+def test_get_emp_details_location(client, create_employees):
     """
     testing employee data with location 1
     """

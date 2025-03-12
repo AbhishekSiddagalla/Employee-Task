@@ -1,18 +1,22 @@
 import pytest
-from Employee_Note.models import EmployeeInfo,Locations
+
+from Employee_Note.models import EmployeeInfo, Locations
+
 
 @pytest.fixture
 def create_locations():
     location1 = Locations.objects.create(unique_locations="Location 1")
     return location1
 
+
 @pytest.fixture
 def create_employees(create_locations):
     location1 = create_locations
-    employee1 = EmployeeInfo.objects.create(emp_name="John Doe", emp_location=location1, emp_phone="1234567890")
+    employee1 = EmployeeInfo.objects.create(emp_name="John Doe",
+                                            emp_location=location1,
+                                            emp_phone="1234567890")
 
     return employee1
-
 
 
 @pytest.mark.django_db

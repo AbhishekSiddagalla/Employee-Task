@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('Employee_Note', '0009_rename_mobile_numbers_phonenumbers_employee_data'),
     ]

@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('Employee_Note', '0005_phonenumbers_alter_employeeinfo_emp_phone'),
     ]
@@ -19,6 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='phonenumbers',
             name='mobile_numbers',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='Employee_Note.employeeinfo'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                    to='Employee_Note.employeeinfo'),
         ),
     ]

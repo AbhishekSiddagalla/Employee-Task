@@ -1,9 +1,12 @@
+import random
+
 from django.http import JsonResponse
 from django.shortcuts import render
 from model_bakery import baker
+
 from Employee_Note.forms import AddCampaignForm
-from Employee_Note.models import EmployeeInfo, Locations, PhoneNumbers, Report
-import random
+from Employee_Note.models import EmployeeInfo, Locations, PhoneNumbers, Campaign
+
 
 def generate_employee_data(request):
     """ Populating data for 1000 records """
@@ -47,109 +50,118 @@ def display_employee_info(request):
     return render(request, 'emp_info.html')
 
 
-def get_unique_locations(request):
-    """ get all locations from the location table """
-    locations = Locations.get_locations()
-    unique_loc = [location.unique_locations for location in locations]
+def preview_page(request):
+    """html page for preview of selected employees and creation of note and related document"""
+    return render(request, "preview.html")
+
+
+def report_page(request):
+    """URL for report page"""
+    return render(request, "report.html")
+
+
+def menu_page(request):
+    """ menu page to display all actions """
+    return render(request, "menu.html")
+
+
+def report_info(request):
+    return render(request, "report_info.html")
+
+
+def fetching_locations(request):
+    location_data = Locations.get_unique_locations(request)
+    unique_loc = [location.unique_locations for location in location_data]
     return JsonResponse({"unique_locations": unique_loc})
 
-def get_employee_details(request):
 
+def employee_details(request):
     if request.method == "GET":
         location = request.GET.get("location", "All")
-        page = int(request.GET.get('page',1))
-        page_size =int(request.GET.get('page_size',10))
-        # print(64,type(page))
-        # print(65,type(page_size))
+        page_size = int(request.GET.get('page_size', 10))
 
-        offset = (page - 1) * page_size
-        limit = offset + 10
-        employees = EmployeeInfo.objects.all()
+        employee_data = EmployeeInfo.get_employee_details(location)
 
-        if location != "All":
-            employees = employees.filter(emp_location__unique_locations=location)
-
-
-        total = employees.count()
-        # employees = employees[offset: offset + limit]
-        employee_data = [
+        total = employee_data.count()
+        employee_info = [
             {
                 'emp_id': employee.id,
                 'emp_name': employee.emp_name,
                 'emp_location': employee.emp_location.unique_locations,
                 'emp_phone': employee.emp_phone
             }
-            for employee in employees
+            for employee in employee_data
         ]
         return JsonResponse({
-            "Employee_data": employee_data,
-            "total":total,
+            "Employee_data": employee_info,
+            "total": total,
             "page_size": page_size
         })
 
 
-def preview_page(request):
-    """html page for preview of selected employees and creation of note and related document"""
-    return render(request,"preview.html")
-
-def report_page(request):
-    """URL for report page"""
-    return render(request,"report.html")
-
 def add_campaign_data(request):
     if request.method == "POST":
-        form = AddCampaignForm(request.POST,request.FILES)
+        form = AddCampaignForm(request.POST, request.FILES)
         if not form.is_valid():
-            return JsonResponse({"Error":form.errors},status=400)
+            return JsonResponse({"Error": form.errors}, status=400)
 
         note = form.cleaned_data['note_description']
         document = form.cleaned_data['document']
+        schedule_date = form.cleaned_data['schedule_date']
         campaign_name = request.POST.get("campaign_name")
-        total_count_of_employees = request.POST.get("total_count_of_employees")
-        phone_numbers = request.POST.get("phone_numbers")
+        phone_numbers_id = request.POST.get("phone_numbers_id")
 
+        phone_numbers_id_list = phone_numbers_id.split(",")
 
-        new_campaign = Report.objects.create(
-            campaign_name = campaign_name,
-            total_count_of_employees = total_count_of_employees,
-            note_description = note,
-            document = document,
-            phone_numbers = phone_numbers
-        )
+        data = Campaign.create_campaign( campaign_name,note,document,schedule_date,phone_numbers_id_list)
 
         campaign_data = {
-            "campaign_name": new_campaign.campaign_name,
-            "total_count_of_employees": new_campaign.total_count_of_employees,
-            "note_description": new_campaign.note_description,
-            "status": new_campaign.status,
-            "phone_numbers": new_campaign.phone_numbers,
-            "document_url": new_campaign.document.url
+            "campaign_name": data.campaign_name,
+            "schedule_date": data.schedule_date,
+            "total_count_of_employees": data.total_count_of_employees,
+            "note_description": data.note_description,
+            "status": data.status,
+            "document_url": data.document.url,
+
         }
 
         return JsonResponse(
             {
-               "campaign": campaign_data
+                "campaign": campaign_data
             }
         )
 
-def campaign_report(request):
-    """ Fetching Campaign report from report table"""
+
+def fetch_campaign_info(request):
     if request.method == "GET":
-        report_list = Report.objects.all()
+        campaign_data = Campaign.campaign_info(request)
+
         campaign_report_list = [{
-                "campaign_id":report.id,
-                "campaign_name":report.campaign_name,
-                "date_of_campaign":report.date_of_campaign,
-                "total_count_of_employees":report.total_count_of_employees,
-                "note_description":report.note_description,
-                "document":str(report.document) if report.document else None,
-                "status":report.status
-            } for report in report_list]
-        return JsonResponse({"campaign_report":campaign_report_list})
+            "campaign_id": report.id,
+            "campaign_name": report.campaign_name,
+            "date_of_campaign": report.date_of_campaign,
+            "total_count_of_employees": report.total_count_of_employees,
+            "note_description": report.note_description,
+            "document": str(report.document) if report.document else None,
+            "status": report.status
+        } for report in campaign_data]
 
-def menu_page(request):
-    """ menu page to display all actions """
-    return render(request,"menu.html")
+        return JsonResponse({"campaign_report": campaign_report_list})
 
-def report_info(request):
-    return render(request,"report_info.html")
+# def get_campaign_details(request):
+#     if request.method == "GET":
+#         campaign_id = request.GET.get('campaign_id')
+#
+#         campaign_info = CampaignDetails.objects.filter(campaign_id=campaign_id)
+#
+#         campaign_details_data = [
+#             {
+#                 "phone_number": campaign.phone_number,
+#                 "masked_phone_numbers": campaign.masked_phone_numbers,
+#                 "delivery_time": campaign.delivery_time,
+#                 "note_status": campaign.note_status,
+#             }
+#             for campaign in campaign_info
+#         ]
+#
+#         return JsonResponse({"campaign_details": campaign_details_data})
