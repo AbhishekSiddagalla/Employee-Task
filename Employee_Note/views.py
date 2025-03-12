@@ -113,6 +113,8 @@ def add_campaign_data(request):
 
         phone_numbers_id_list = phone_numbers_id.split(",")
 
+
+
         data = Campaign.create_campaign( campaign_name,note,document,schedule_date,phone_numbers_id_list)
 
         campaign_data = {

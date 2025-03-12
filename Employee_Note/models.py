@@ -58,7 +58,18 @@ class Campaign(models.Model):
 
     @classmethod
     def create_campaign(cls, campaign_name, note, document, schedule_date, phone_numbers_id_list):
-        """ posting campaign data to report table """
+        """
+        posting campaign data to report table
+        """
+        if not campaign_name:
+            raise ValueError("Campaign name cannot be None or empty")
+
+        if not note:
+            raise ValueError("Note cannot be None or empty")
+
+        if not schedule_date:
+            raise ValueError("Schedule Date cannot be None or empty")
+
         total_count = len(phone_numbers_id_list)
 
         if total_count < 1:
@@ -78,10 +89,15 @@ class Campaign(models.Model):
 
     @classmethod
     def campaign_info(cls, request):
-        """ Fetching Campaign report from report table"""
+        """
+        Fetching Campaign report from report table
+        """
 
         report_list = cls.objects.all()
         return report_list
+
+    def get_campaign_details(self):
+        return self.campaigndetails_set.all()
 
 
 class CampaignDetails(models.Model):
@@ -115,3 +131,5 @@ class CampaignDetails(models.Model):
         info = cls.objects.bulk_create(campaign_details_to_create)
 
         return info
+
+
