@@ -1,11 +1,3 @@
-$(document).ready(function(){
-    initializeReportGrid();
-
-//    window.location.reload();
-});
-
-
-
 let gridApi;
 
 let rowData = null;
@@ -33,7 +25,7 @@ const gridOptions = {
 
 function loadReports(){
     $.ajax({
-        url: '/employee/api-campaign-report/',
+        url: '/my-app/api-campaign-report/',
         type: 'GET',
         success: function(response) {
             const reports = response.campaign_report;
@@ -52,3 +44,7 @@ function initializeReportGrid(){
 
     gridApi.setGridOption("rowData",rowData);
 }
+
+$(document).ready(function(){
+    initializeReportGrid();
+});

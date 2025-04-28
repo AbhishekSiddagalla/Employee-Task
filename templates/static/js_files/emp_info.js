@@ -22,7 +22,7 @@ function saveCampaignName(){
 
 function loadLocations(){
     $.ajax({
-        url: '/employee/api-get-loc/',
+        url: '/my-app/api-get-loc/',
         type: 'GET',
         success: function(response){
             const locations = response.unique_locations;
@@ -56,7 +56,7 @@ function loadEmployees(){
         return;
     }
     $.ajax({
-        url: '/employee/api-get-emp-details/',
+        url: '/my-app/api-get-emp-details/',
         type: 'GET',
         data: { location: location },
         success: function(response) {

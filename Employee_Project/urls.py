@@ -17,7 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from Employee_Note import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('employee/', include('Employee_Note.urls'))
+    path('login/', views.login_page, name='login'),  # login url
+    path('logout/', views.logout_view, name='logout'),  # logout url
+    path('my-app/', include('Employee_Note.urls')),
+    path('captcha/', include('captcha.urls')),
 ]

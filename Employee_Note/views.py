@@ -1,14 +1,16 @@
 import random
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from model_bakery import baker
 
-from Employee_Note.forms import AddCampaignForm
+from Employee_Note.forms import AddCampaignForm, LoginWithCaptchaForm
 from Employee_Note.models import EmployeeInfo, Locations, PhoneNumbers, Campaign
 
-
-def generate_employee_data(request):
+@login_required
+def generate_employee_data():
     """ Populating data for 1000 records """
     generated_data = []
 
@@ -44,37 +46,37 @@ def generate_employee_data(request):
 
     return JsonResponse({"Employee_details": generated_data})
 
-
+@login_required
 def display_employee_info(request):
     """ function to display employee details """
     return render(request, 'emp_info.html')
 
-
+@login_required
 def preview_page(request):
     """html page for preview of selected employees and creation of note and related document"""
     return render(request, "preview.html")
 
-
+@login_required
 def report_page(request):
     """URL for report page"""
     return render(request, "report.html")
 
-
+@login_required
 def menu_page(request):
     """ menu page to display all actions """
     return render(request, "menu.html")
 
-
+@login_required
 def report_info(request):
     return render(request, "report_info.html")
 
-
+@login_required
 def fetching_locations(request):
     location_data = Locations.get_unique_locations(request)
     unique_loc = [location.unique_locations for location in location_data]
     return JsonResponse({"unique_locations": unique_loc})
 
-
+@login_required
 def employee_details(request):
     if request.method == "GET":
         location = request.GET.get("location", "All")
@@ -97,18 +99,19 @@ def employee_details(request):
             "total": total,
             "page_size": page_size
         })
+    return None
 
-
+@login_required
 def add_campaign_data(request):
     if request.method == "POST":
         form = AddCampaignForm(request.POST, request.FILES)
         if not form.is_valid():
             return JsonResponse({"Error": form.errors}, status=400)
 
+        campaign_name = request.POST.get("campaign_name")
         note = form.cleaned_data['note_description']
         document = form.cleaned_data['document']
         schedule_date = form.cleaned_data['schedule_date']
-        campaign_name = request.POST.get("campaign_name")
         phone_numbers_id = request.POST.get("phone_numbers_id")
 
         phone_numbers_id_list = phone_numbers_id.split(",")
@@ -132,38 +135,51 @@ def add_campaign_data(request):
                 "campaign": campaign_data
             }
         )
+    return None
 
-
+@login_required
 def fetch_campaign_info(request):
     if request.method == "GET":
         campaign_data = Campaign.campaign_info(request)
-
         campaign_report_list = [{
             "campaign_id": report.id,
             "campaign_name": report.campaign_name,
-            "date_of_campaign": report.date_of_campaign,
-            "total_count_of_employees": report.total_count_of_employees,
+            "date_of_campaign": report.schedule_date,
+            "total_count_of_employees": report.total_count,
             "note_description": report.note_description,
             "document": str(report.document) if report.document else None,
             "status": report.status
         } for report in campaign_data]
 
         return JsonResponse({"campaign_report": campaign_report_list})
+    return None
 
-# def get_campaign_details(request):
-#     if request.method == "GET":
-#         campaign_id = request.GET.get('campaign_id')
-#
-#         campaign_info = CampaignDetails.objects.filter(campaign_id=campaign_id)
-#
-#         campaign_details_data = [
-#             {
-#                 "phone_number": campaign.phone_number,
-#                 "masked_phone_numbers": campaign.masked_phone_numbers,
-#                 "delivery_time": campaign.delivery_time,
-#                 "note_status": campaign.note_status,
-#             }
-#             for campaign in campaign_info
-#         ]
-#
-#         return JsonResponse({"campaign_details": campaign_details_data})
+# user login page
+def login_page(request):
+    if request.method == "POST":
+        form = LoginWithCaptchaForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["user_name"]
+            password = form.cleaned_data["password"]
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return JsonResponse({"success": True, "redirect_url": "/my-app/menu/"})
+
+            else:
+                return JsonResponse({"success": False, "error": "Invalid username or password"})
+        else:
+            error = form.errors.as_json()
+            return JsonResponse({"success": False, "error": error})
+
+    else:
+        form = LoginWithCaptchaForm()
+        return render(request, "login.html", {"form": form})
+
+
+# user logout
+def logout_view(request):
+    logout(request)
+    return redirect('login')

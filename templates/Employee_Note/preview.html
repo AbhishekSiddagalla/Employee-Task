@@ -4,56 +4,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>preview page</title>
+    <title>Preview Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+    <style>
+        .sidebar {
+            height: 135vh;
+            background-color: #f8f9fa;
+            padding-top: 1rem;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            color: #0d6efd !important;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-
-    <form id="add-campaign-form" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div align="center"><h2>Total Selected Employees: <span id="selectedCount">0</span></h2></div>
-        <br>
-        <div align="center"><h2>Campaign Name: <span id="campaignName">__</span></h2></div>
-
-        <div class="form-row">
-            <div class="form-item">
-                <div id="previewGrid" class="ag-theme-alpine"></div>
-            </div>
-            <div align="center">
-                <div class="form-item">
-                    <label for="note">Note:</label>
-                    <textarea
-                            id="note"
-                            name="note"
-                            minlength="10"
-                            maxlength="200"
-                            style="height:150px;"
-                            required></textarea>
-                </div>
-                <br><br>
-                <div class="form-item">
-                    <label for="document">Document:</label>
-                    <input type="file" id="document" name="document"/>
-                    <br><br>
-                    <label for="scheduleTime">Schedule Time</label>
-                    <input type="date" id="scheduleTime"/>
-                </div>
-            </div>
+<div class="container-fluid">
+    <!-- Top Bar -->
+    <div class="row bg-light py-2 px-3 justify-content-between align-items-center">
+        <div class="col-auto">
+            <h3 class="m-0">Dashboard</h3>
         </div>
-    </form>
-    <br><br>
-    <div align="center">
-        <button id="sendButton" name="sendButton">send</button>
-        &nbsp;
-        <a href="{% url 'menu_page' %}">
-            <button id="backButton" name="backButton">Back to Menu</button>
-        </a>&nbsp;
+        <div class="col-auto">
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+        </div>
     </div>
 
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'menu_page' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="history.back()">Create Campaign</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="location.href='{% url 'menu_page' %}'">Report</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+            <form id="add-campaign-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div align="center">
+                    <h2>Total Selected Employees: <span id="selectedCount">0</span></h2>
+                    <h2>Campaign Name: <span id="campaignName">__</span></h2>
+                </div>
+                <br>
+                <div class="form-row row justify-content-center">
+                    <div class="col-md-10">
+                        <div id="previewGrid" class="ag-theme-alpine" style="height: 30px;"></div>
+                    </div>
+                    <div class="col-md-10 mt-4 text-center">
+                        <label for="note">Note:</label><br>
+                        <textarea id="note" name="note" minlength="10" maxlength="200" style="width: 100%; height: 150px;" required></textarea>
+                        <br><br>
+                        <label for="document">Document:</label>
+                        <input type="file" id="document" name="document"/>
+                        <br><br>
+                        <label for="scheduleTime">Schedule Time</label>
+                        <input type="date" id="scheduleTime"/>
+                    </div>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <button id="sendButton" name="sendButton" class="btn btn-success">Send</button>
+                &nbsp;
+                <a href="{% url 'menu_page' %}">
+                    <button type="button" id="backButton" name="backButton" class="btn btn-secondary">Back to Menu</button>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
 <script src="{% static '/js_files/preview.js' %}"></script>
 </body>

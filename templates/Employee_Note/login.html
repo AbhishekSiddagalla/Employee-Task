@@ -1,0 +1,50 @@
+{% load static %}
+{% spaceless %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+</head>
+<body>
+        <div align="center">
+        <h1>User Login Page</h1>
+    </div>
+    <br><br>
+    <div class="container" align="center">
+        <form id="login-form" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <label for="user_name">User Name:</label>
+            <input
+                    type="email"
+                    id="user_name"
+                    name="user_name"
+                    required>
+            <br><br>
+
+            <label for="password">Password:</label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required>
+            <br><br><br>
+
+            <label for="captcha">Enter CAPTCHA:</label>
+            <br><br>
+            {{ form.captcha_text }}
+            <br><br>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div id="response" style="color: red; margin-top: 10px;"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static '/js_files/login.js' %}"></script>
+</body>
+</html>
+
+{% endspaceless %}

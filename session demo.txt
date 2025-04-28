@@ -1,0 +1,25 @@
+non session url 
+
+http://127.0.0.1:8000/employee/login/
+
+session urls
+
+http://127.0.0.1:8000/employee/menu/
+
+campaign creation - http://127.0.0.1:8000/employee/menu/info/
+
+preview page - http://127.0.0.1:8000/employee/menu/info/preview/
+
+report page - http://127.0.0.1:8000/employee/menu/report/
+
+logout redirect to login page
+
+
+
+
+http://127.0.0.1:8000/my-app/
+
+
+
+
+http://127.0.0.1:8000/

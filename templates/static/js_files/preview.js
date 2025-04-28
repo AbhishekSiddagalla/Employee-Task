@@ -31,7 +31,7 @@ $(document).ready(function(){
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         // make an Ajax call to post data to API
         $.ajax({
-            url:"/employee/api-add-campaign/",
+            url:"/my-app/api-add-campaign/",
             type: "POST",
             data: formData,
             contentType: false,

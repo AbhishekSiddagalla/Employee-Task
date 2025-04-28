@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Employee_Note',
+    'captcha',
 ]
 
 MEDIA_URL = '/media/'
