@@ -16,7 +16,7 @@ def populate_campaign_data():
 @pytest.mark.django_db
 def test_campaign_details_with_valid_data(client, populate_campaign_data):
     """ testing with valid data"""
-    response = client.post('/employee/api-add-campaign/',
+    response = client.post('/my-app/api-add-campaign/',
                            populate_campaign_data,
                            format="multipart"
                            )

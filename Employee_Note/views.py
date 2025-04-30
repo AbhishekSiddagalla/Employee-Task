@@ -174,9 +174,8 @@ def login_page(request):
             error = form.errors.as_json()
             return JsonResponse({"success": False, "error": error})
 
-    else:
-        form = LoginWithCaptchaForm()
-        return render(request, "login.html", {"form": form})
+    form = LoginWithCaptchaForm()
+    return render(request, "login.html", {"form": form})
 
 
 # user logout

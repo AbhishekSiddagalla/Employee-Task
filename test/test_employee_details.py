@@ -1,5 +1,7 @@
 import pytest
 
+from django.test import Client
+
 from Employee_Note.models import Locations, EmployeeInfo
 
 
@@ -25,7 +27,7 @@ def test_get_emp_details_all(client, create_employees):
     testing employee data with all locations
     """
 
-    response = client.get('/employee/api-get-emp-details/', {'location': 'All'})
+    response = client.get('/my-app/api-get-emp-details/', {'location': 'All'})
     assert len(response.json()['Employee_data']) == 3
     assert response.json()['Employee_data'][0]['emp_name'] == "John Doe"
     assert response.json()['Employee_data'][1]['emp_name'] == "Jane Doe"
@@ -38,7 +40,7 @@ def test_get_emp_details_location(client, create_employees):
     testing employee data with location 1
     """
 
-    response = client.get('/employee/api-get-emp-details/', {'location': 'Location 1'})
+    response = client.get('/my-app/api-get-emp-details/', {'location': 'Location 1'})
     assert len(response.json()['Employee_data']) == 2
     assert response.json()['Employee_data'][0]['emp_name'] == "John Doe"
     assert response.json()['Employee_data'][1]['emp_name'] == "Alice Smith"

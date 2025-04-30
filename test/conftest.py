@@ -1,8 +1,9 @@
 import os
+import django
 from pathlib import Path
 
-# For pytest-django, set the DJANGO_SETTINGS_MODULE to the test-specific settings.
-os.environ['DJANGO_SETTINGS_MODULE'] = 'Employee_Project.settings_test'
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Employee_Project.settings')
+django.setup()
 
 # Path to your project root directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,6 +14,7 @@ DATABASES = {
         'NAME': ":memory:",
     }
 }
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
